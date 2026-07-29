@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assigno - AI Assignment Suite</title>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Assigno - Handwritten Assignment Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Reenie+Beanie&family=Caveat:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,13 +20,12 @@
             <input type="text" id="loginUsername" placeholder="Username (e.g., afnan or admin)" class="auth-input">
             <input type="password" id="loginPassword" placeholder="Password (admin pass: assigno_god_2026)" class="auth-input">
             <button id="loginBtn" class="glow-btn full-width">Sign In</button>
-            <p class="auth-hint">💡 Tip: Log in as <b>admin</b> with password <code>assigno_god_2026</code> for full control.</p>
+            <p class="auth-hint">💡 Admin login: <b>admin</b> / <code>assigno_god_2026</code></p>
         </div>
     </div>
 
-    <!-- MAIN APP LAYOUT (Hidden until login) -->
+    <!-- MAIN APP LAYOUT -->
     <div id="appLayout" class="app-layout" style="display: none;">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo">
                 <span class="logo-icon">A</span>
@@ -34,191 +33,102 @@
             </div>
             <ul class="nav-links">
                 <li class="nav-item active" data-target="dashboardTab">🏠 Dashboard</li>
-                <li class="nav-item" data-target="generateTab">✨ Generate</li>
                 <li class="nav-item" data-target="historyTab">📂 My Assignments</li>
                 <li id="adminNavLink" class="nav-item admin-link" data-target="adminTab" style="display:none;">🛡️ Admin Panel</li>
-                <li class="nav-item" data-target="settingsTab">⚙️ Settings</li>
             </ul>
             <div class="sidebar-footer">
                 <button id="logoutBtn" class="logout-btn">🚪 Sign Out</button>
             </div>
         </aside>
 
-        <!-- Main Content Area -->
         <main class="main-content">
             <header class="top-header">
                 <h1 id="pageTitle">Dashboard</h1>
                 <div class="user-profile">
-                    <span class="notification-dot"></span>
                     <div class="avatar" id="userAvatar">A</div>
                     <span id="userNameDisplay">Afnan</span>
+                    <span class="credit-badge">Credits: <strong id="creditCount">2</strong></span>
                 </div>
             </header>
 
-            <!-- TAB 1: DASHBOARD & GENERATOR -->
+            <!-- DASHBOARD TAB -->
             <div id="dashboardTab" class="tab-content active-tab">
-                <!-- Stats Row -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <p class="stat-label">Available Credits</p>
-                        <h3 class="stat-value"><span id="creditCount">2</span> <span class="stat-sub">credits left</span></h3>
-                    </div>
-                    <div class="stat-card">
-                        <p class="stat-label">Assignments Generated</p>
-                        <h3 class="stat-value" id="totalGeneratedCount">1</h3>
-                    </div>
-                    <div class="stat-card">
-                        <p class="stat-label">System Status</p>
-                        <h3 class="stat-value active-status">Online 🟢</h3>
-                    </div>
-                </div>
-
-                <!-- Generator Section -->
                 <div class="generator-card">
-                    <h2>Generate New Assignment</h2>
-                    <div class="form-grid">
-                        <div class="input-group">
-                            <label>Assignment Topic & Instructions</label>
-                            <textarea id="promptInput" placeholder="e.g., Write a 500-word essay on the Industrial Revolution with formal academic tone..."></textarea>
-                        </div>
-                    </div>
+                    <h2>Generate Handwritten Assignment</h2>
+                    <textarea id="promptInput" placeholder="Enter assignment topic, e.g., 'MPA-032 Ecology and Environment, Section 1...'"></textarea>
                     
                     <div class="controls-row">
                         <label class="checkbox-container">
-                            <input type="checkbox" id="paraphraseCheck"> 
-                            <span class="checkmark"></span> Make it Plagiarism-Free (Paraphrased)
+                            <input type="checkbox" id="paraphraseCheck" checked> 
+                            Make it Plagiarism-Free (Academic Paraphrase)
                         </label>
-                        <button id="generateBtn" class="glow-btn">✨ Generate Assignment</button>
+                        <button id="generateBtn" class="glow-btn">✨ Generate Handwritten Paper</button>
                     </div>
                 </div>
 
-                <!-- Output Workspace (Handwriting Paper Style) -->
-                <div id="outputArea" class="output-card" style="display:none;">
-                    <div class="output-header">
-                        <h3>Generated Assignment Workspace</h3>
-                        <span class="badge-paper">📝 Handwriting Paper View</span>
+                <!-- NOTEBOOK PAPER OUTPUT VIEW -->
+                <div id="outputArea" class="notebook-sheet" style="display:none;">
+                    <!-- Top Paper Header boxes like your sample image -->
+                    <div class="paper-header-boxes">
+                        <div class="paper-box-left">Topic: <span id="paperTopicTitle">General Assignment</span></div>
+                        <div class="paper-box-right">Date: <span id="paperDate">29/07/2026</span></div>
                     </div>
-                    <div id="resultText" class="editable-output paper-texture" contenteditable="true"></div>
+
+                    <div class="red-margin-line"></div>
+                    
+                    <div id="resultText" class="handwritten-text" contenteditable="true">
+                        <!-- AI content will appear here inside notebook lines -->
+                    </div>
+
                     <div class="output-actions">
-                        <button id="downloadBtn" class="secondary-btn">📥 Download as Document (.txt/.docx) & Lock</button>
+                        <button id="downloadBtn" class="secondary-btn">📥 Download / Print Exam Page & Lock</button>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB 2: GENERATE TAB -->
-            <div id="generateTab" class="tab-content" style="display:none;">
-                <div class="generator-card">
-                    <h2>Advanced AI Assignment Creator</h2>
-                    <p class="sub-text">Configure your custom parameters for pristine academic output.</p>
-                    <textarea id="promptInput2" placeholder="Enter topic..." class="mt-15"></textarea>
-                    <button id="generateBtn2" class="glow-btn mt-15">✨ Generate Now</button>
-                </div>
-            </div>
-
-            <!-- TAB 3: MY ASSIGNMENTS HISTORY -->
+            <!-- HISTORY TAB -->
             <div id="historyTab" class="tab-content" style="display:none;">
                 <div class="generator-card">
-                    <h2>Your Assignment History</h2>
+                    <h2>Your Generated Assignments History</h2>
                     <table class="data-table">
                         <thead>
-                            <tr>
-                                <th>Title / Prompt</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
+                            <tr><th>Title / Prompt</th><th>Date</th><th>Status</th></tr>
                         </thead>
-                        <tbody id="userHistoryList">
-                            <tr>
-                                <td>History of Computers</td>
-                                <td>July 29, 2026</td>
-                                <td><span class="badge-completed">Completed</span></td>
-                                <td><button class="action-btn">View</button></td>
-                            </tr>
-                        </tbody>
+                        <tbody id="userHistoryList"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- TAB 4: ADMIN PANEL (Secret Access) -->
+            <!-- ADMIN TAB -->
             <div id="adminTab" class="tab-content" style="display:none;">
                 <div class="admin-banner">
                     <h2>🛡️ Master Admin Control Center</h2>
-                    <p>Manage users, adjust credit balances, monitor user generation logs, and retract history.</p>
+                    <p>Manage users, edit credits, view system logs, and inspect generations.</p>
                 </div>
-
-                <div class="stats-grid mt-20">
-                    <div class="stat-card">
-                        <p class="stat-label">Total Registered Users</p>
-                        <h3 class="stat-value" id="adminUserCount">3</h3>
-                    </div>
-                    <div class="stat-card">
-                        <p class="stat-label">Total System Generations</p>
-                        <h3 class="stat-value" id="adminGenCount">14</h3>
-                    </div>
-                    <div class="stat-card">
-                        <p class="stat-label">Security Firewall</p>
-                        <h3 class="stat-value active-status">Active 🔒</h3>
-                    </div>
-                </div>
-
                 <div class="generator-card mt-20">
-                    <h3>User Management & Credit Control</h3>
+                    <h3>User Management & Credits</h3>
                     <table class="data-table mt-15">
-                        <thead>
-                            <tr>
-                                <th>Username</th>
-                                <th>Role</th>
-                                <th>Credits</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Username</th><th>Role</th><th>Credits</th><th>Action</th></tr></thead>
                         <tbody id="adminUserTable">
-                            <tr>
-                                <td>afnan</td>
-                                <td>User</td>
-                                <td><input type="number" value="2" class="credit-input" data-user="afnan"></td>
-                                <td><button class="admin-action-btn save-credit">Save</button> <button class="admin-action-btn delete-user">Kill User</button></td>
-                            </tr>
-                            <tr>
-                                <td>admin</td>
-                                <td>Administrator</td>
-                                <td>Unlimited</td>
-                                <td><span class="badge-admin">Root</span></td>
-                            </tr>
+                            <tr><td>afnan</td><td>User</td><td><input type="number" value="2" class="credit-input"></td><td><button class="admin-action-btn">Save</button></td></tr>
+                            <tr><td>admin</td><td>Root Admin</td><td>Unlimited</td><td><span class="badge-admin">Root</span></td></tr>
                         </tbody>
                     </table>
                 </div>
-
                 <div class="generator-card mt-20">
-                    <h3>Global User Generation Logs (Live Inspector)</h3>
-                    <div id="adminLogsBox" class="logs-box">
-                        [System Log]: afnan generated prompt "History of computers" at 12:30 PM.
-                    </div>
+                    <h3>Live System Generation Logs</h3>
+                    <div id="adminLogsBox" class="logs-box">[System Log]: Initialized securely.</div>
                 </div>
             </div>
-
-            <!-- TAB 5: SETTINGS -->
-            <div id="settingsTab" class="tab-content" style="display:none;">
-                <div class="generator-card">
-                    <h2>Account Settings</h2>
-                    <p class="mt-10">Manage your password, preferences, and API configuration.</p>
-                </div>
-            </div>
-
         </main>
     </div>
 
-    <!-- PAYWALL / OUT OF CREDITS MODAL -->
+    <!-- PAYWALL MODAL -->
     <div id="paywallModal" class="modal-overlay" style="display: none;">
         <div class="modal-card">
-            <div class="modal-icon">⚡</div>
-            <h2>Out of Credits!</h2>
-            <p>You have used all your free assignment credits. Please recharge your workspace to continue generating pristine AI assignments.</p>
-            <div class="price-box">
-                <span class="price">$9.99</span>
-                <span class="price-sub">/ 50 Credits Pack</span>
-            </div>
+            <h2>⚡ Out of Credits!</h2>
+            <p>You have used your 2 free credits. Please recharge your workspace to continue generating handwritten exams.</p>
+            <div class="price-box"><span class="price">$9.99</span><span class="price-sub">/ 50 Credits Pack</span></div>
             <button id="rechargeBtn" class="glow-btn full-width mt-15">💳 Recharge Credits Now</button>
             <button id="closeModalBtn" class="secondary-btn-outline mt-10">Close</button>
         </div>

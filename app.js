@@ -1,49 +1,3 @@
-const GEMINI_API_KEY = "AQ.Ab8RN6J94cMKjrLCciKDttauYk5BMm4xVUubdWpim4H8xF-P4g";
-
-let currentUser = { username: "afnan", credits: 2, role: "user" };
-let userHistory = [];
-let systemLogs = ["[System Boot]: Secured environment loaded."];
-
-// LOGIN
-document.getElementById('loginBtn').addEventListener('click', () => {
-    const user = document.getElementById('loginUsername').value.trim();
-    const pass = document.getElementById('loginPassword').value.trim();
-
-    if (!user) { alert("Enter username"); return; }
-
-    if (user === "admin" && pass === "assigno_god_2026") {
-        currentUser = { username: "admin", credits: 999, role: "admin" };
-        document.getElementById('adminNavLink').style.display = 'block';
-    } else {
-        currentUser = { username: user, credits: 2, role: "user" };
-        document.getElementById('adminNavLink').style.display = 'none';
-    }
-
-    document.getElementById('loginView').style.display = 'none';
-    document.getElementById('appLayout').style.display = 'flex';
-    document.getElementById('userNameDisplay').innerText = currentUser.username;
-    document.getElementById('userAvatar').innerText = currentUser.username.charAt(0).toUpperCase();
-    document.getElementById('creditCount').innerText = currentUser.credits;
-    logAction(`User '${currentUser.username}' logged in.`);
-});
-
-// LOGOUT
-document.getElementById('logoutBtn').addEventListener('click', () => {
-    document.getElementById('appLayout').style.display = 'none';
-    document.getElementById('loginView').style.display = 'flex';
-});
-
-// TABS
-document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', () => {
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-        item.classList.add('active');
-        document.getElementById(item.getAttribute('data-target')).style.display = 'block';
-        document.getElementById('pageTitle').innerText = item.innerText.replace(/[^a-zA-Z ]/g, "").trim();
-    });
-});
-
 // GENERATE ASSIGNMENT
 document.getElementById('generateBtn').addEventListener('click', async () => {
     const promptText = document.getElementById('promptInput').value.trim();
@@ -75,10 +29,23 @@ document.getElementById('generateBtn').addEventListener('click', async () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ contents: [{ parts: [{ text: finalPrompt }] }] })
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{ text: finalPrompt }]
+                }]
+            })
         });
 
-        const data = await response.json();
+        // Check if the response text is HTML (which happens if a host/proxy intercepts it)
+        const responseText = await response.text();
+        let data;
+        try {
+            data = JSON.parse(responseText);
+        } catch (e) {
+            console.error("Intercepted response:", responseText);
+            resultDiv.innerText = "Hosting/Network Interception Error: The request was blocked or redirected by a login wall.";
+            return;
+        }
         
         if (data.error) {
             resultDiv.innerText = "API Error: " + data.error.message;
@@ -98,31 +65,7 @@ document.getElementById('generateBtn').addEventListener('click', async () => {
         logAction(`User '${currentUser.username}' generated assignment.`);
 
     } catch (error) {
-        resultDiv.innerText = "Network Error: Check API connection.";
+        resultDiv.innerText = "Network Error: Check browser console.";
         console.error(error);
     }
 });
-
-// PAYWALL
-document.getElementById('closeModalBtn').addEventListener('click', () => {
-    document.getElementById('paywallModal').style.display = 'none';
-});
-document.getElementById('rechargeBtn').addEventListener('click', () => {
-    currentUser.credits = 5;
-    document.getElementById('creditCount').innerText = currentUser.credits;
-    document.getElementById('paywallModal').style.display = 'none';
-    alert('💳 5 credits added successfully!');
-});
-
-function updateHistoryUI() {
-    const list = document.getElementById('userHistoryList');
-    list.innerHTML = userHistory.map(h => `
-        <tr><td>${h.title}</td><td>${h.date}</td><td><span class="badge-completed">Completed</span></td></tr>
-    `).join('');
-}
-
-function logAction(msg) {
-    systemLogs.unshift(`[${new Date().toLocaleTimeString()}] ${msg}`);
-    const box = document.getElementById('adminLogsBox');
-    if (box) box.innerHTML = systemLogs.join('<br>');
-}

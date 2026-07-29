@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assigno - AI Assignment Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">A</span>
+                <h2>Assigno</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active">Dashboard</li>
+                <li>Generate</li>
+                <li>My Assignments</li>
+                <li>Classroom</li>
+                <li>Account</li>
+                <li>Settings</li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <h1>Dashboard</h1>
+                <div class="user-profile">
+                    <span class="notification-dot"></span>
+                    <div class="avatar">AW</div>
+                    <span>Afnan</span>
+                </div>
+            </header>
+
+            <!-- Stats Row -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <p class="stat-label">Available Credits</p>
+                    <h3 class="stat-value">2 <span class="stat-sub">+2 free</span></h3>
+                </div>
+                <div class="stat-card">
+                    <p class="stat-label">Assignments Generated</p>
+                    <h3 class="stat-value">1</h3>
+                </div>
+                <div class="stat-card">
+                    <p class="stat-label">System Status</p>
+                    <h3 class="stat-value active-status">Online</h3>
+                </div>
+            </div>
+
+            <!-- Generator Section -->
+            <div class="generator-card">
+                <h2>Generate New Assignment</h2>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Assignment Topic & Constraints</label>
+                        <textarea id="promptInput" placeholder="e.g., Write a 500-word essay on the Industrial Revolution..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="controls-row">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="paraphraseCheck"> 
+                        <span class="checkmark"></span> Make it Plagiarism-Free (Paraphrased)
+                    </label>
+                    <button id="generateBtn" class="glow-btn">✨ Generate Assignment</button>
+                </div>
+            </div>
+
+            <!-- Output Workspace -->
+            <div id="outputArea" class="output-card" style="display:none;">
+                <h3>Workspace Output</h3>
+                <div id="resultText" class="editable-output" contenteditable="true"></div>
+                <button id="downloadBtn" class="secondary-btn">Download as Word Document (.docx) & Lock</button>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

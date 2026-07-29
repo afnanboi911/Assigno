@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assigno - Instant Assignment Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Assigno</h1>
+        <p>Type your assignment topic and constraints below.</p>
+        
+        <div class="workspace">
+            <textarea id="promptInput" placeholder="e.g., Write a 500-word essay on the impact of AI in education..."></textarea>
+            
+            <div class="controls">
+                <label>
+                    <input type="checkbox" id="paraphraseCheck"> Make it Plagiarism-Free (Paraphrased)
+                </label>
+                <button id="generateBtn">Generate Assignment</button>
+            </div>
+            
+            <div id="outputArea" class="output-box" style="display:none;">
+                <h3>Your Assignment is Ready:</h3>
+                <div id="resultText" contenteditable="true"></div>
+                <button id="downloadBtn">Download as Word Document (.docx)</button>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

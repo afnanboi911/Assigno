@@ -1,4 +1,4 @@
-const GEMINI_API_KEY = "AQ.Ab8RN6Iyw9IAby8iP2Dhc3gj8xvUmTBNeBGegKDLWvyBHiqy7w";
+const GEMINI_API_KEY = "AQ.Ab8RN6J94cMKjrLCciKDttauYk5BMm4xVUubdWpim4H8xF-P4g";
 
 let currentUser = { username: "afnan", credits: 2, role: "user" };
 let userHistory = [];
